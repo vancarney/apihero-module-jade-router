@@ -6,13 +6,14 @@ global._        = _
 global.should   = should
 global.expect   = expect
 global.app_root = path.join __dirname, 'server'
+
 lt        = require 'loopback-testing'
 server    = require './server/server/server'
 
 describe 'init app', ->
   @timeout 10000
-  it 'should emit a `initialized` event', (done)=>
-    server.once 'ahero-initialized', =>
+  it 'should emit a `ready` event', (done)=>
+    server.once 'ahero-ready', =>
       global.app = server
       expect(app.ApiHero).to.exist
       # global.api_options  = require '../lib/classes/config/APIOptions'

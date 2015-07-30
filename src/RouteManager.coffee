@@ -6,8 +6,8 @@ RouteItem = require './RouteItem'
 class RouteManager extends EventEmitter
   'use strict'
   routes:[]
-  _viewsDir: "#{app_root || '.'}#{_path.sep}views"
-  _routesDir: "#{app_root || '.'}#{_path.sep}routes"
+  _viewsDir: _path.join "#{app_root || '.'}", 'views'
+  _routesDir: _path.join "#{app_root || '.'}", 'routes'
   constructor:->
     fs.ensureDir @_viewsDir, =>
       fs.ensureDir @_routesDir, =>

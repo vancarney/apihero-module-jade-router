@@ -1,12 +1,7 @@
 var hero = require('api-hero');
+var path = require('path');
 module.exports = function(app) {
-
-	app.once('ahero-initialized', function() {
-		// app.ApiHero.loadedModules = ['apihero-module-jade-router'];
-// 		
-		// console.log(app.listeners());
-		app.emit('ahero-initialized');
-	});
-	require('../../../../').init(app);
+	// global.app_root = path.join(__dirname, '..', '..');
+	console.log("global.app_root: "+global.app_root);
 	hero.init(app);
 };
