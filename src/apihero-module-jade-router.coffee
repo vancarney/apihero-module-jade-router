@@ -46,7 +46,8 @@ module.exports.init = (app, options, callback)->
     loadedModules = app.ApiHero.listModules()
     loadedModules.splice idx, 1 if 0 <= (idx = loadedModules.indexOf path.basename module.id, '.js')
     done = _.after loadedModules.length, =>
-      app.set 'view engine', jade.jade
+      app.engine 'jade', jade.jade.renderFile
+      app.set 'view engine', 'jade'
       app.set 'views', views
       fs.stat rules_path, (e)=>
         rules = []
