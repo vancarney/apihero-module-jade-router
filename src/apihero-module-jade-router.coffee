@@ -48,15 +48,16 @@ module.exports.init = (app, options, callback)->
     done = _.after loadedModules.length, =>
       app.set 'view engine', 'jade'
       app.set 'views', views
-      try
-        rules = require rules_path
-      catch e
-        console.log e
-        fs.writeFileSync rules_path, '[]'
+      fs.stat rules_path, (e)=>
         rules = []
-      app.use modRewrite rules
-      # console.log "views: #{views}"
-      callback null, views
+        unless e?
+          try
+            rules = require rules_path
+          catch e
+            console.log e
+          app.use modRewrite rules
+          # console.log "views: #{views}"
+        callback null, views
     _routeManager = RouteManager.getInstance().on 'initialized', (routes)=>
       _routes = routes
       generateRoute = (route)=>
