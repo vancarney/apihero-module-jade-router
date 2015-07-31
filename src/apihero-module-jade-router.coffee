@@ -43,7 +43,7 @@ module.exports.init = (app, options, callback)->
   rules_path = path.join @options.routesPath, 'rewrite-rules.json'
   _routes = []
   app.once 'ahero-modules-loaded', =>
-    loadedModules = [].concat app.ApiHero.loadedModules
+    loadedModules = app.ApiHero.listModules()
     loadedModules.splice idx, 1 if 0 <= (idx = loadedModules.indexOf path.basename module.id, '.js')
     done = _.after loadedModules.length, =>
       app.set 'view engine', 'jade'
