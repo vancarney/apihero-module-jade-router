@@ -49,6 +49,10 @@ module.exports.init = (app, options, callback)->
       app.engine 'jade', jade.jade.renderFile
       app.set 'view engine', 'jade'
       app.set 'views', views
+      app.use (req, res, next)->
+        res.locals ?= {}
+        res.locals.isXHR = ((rh = req.headers['x-requested-with'])? and rh is 'XMLHttpRequest')
+        next()
       fs.stat rules_path, (e)=>
         rules = []
         unless e?
