@@ -104,7 +104,7 @@ class RouteHandler
   # Routeing Module Entry Point
   constructor: (@filePath, @_app_ref)->
     try 
-      @config = require path.join path.dirname @filePath, "#{path.basename @filePath}.json"
+      @config = require path.join "#{path.dirname @filePath}", "#{path.basename @filePath}.json"
     catch e
       console.log e
       process.exit 1
