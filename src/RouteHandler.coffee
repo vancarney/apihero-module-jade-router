@@ -109,7 +109,7 @@ class RouteHandler
       console.log e
       process.exit 1
     # tests for RegExp based route as denoted by a `rx:` prefix
-    route = if (s = @config.route.split('rx:')).length > 1 then new RegExp(s.pop()) else @config.route
+    route = if (s = (@config.route || '').split('rx:')).length > 1 then new RegExp(s.pop()) else @config.route
     # applies the Route and Handler Method to a GET Request 
     app.get route, (req, res, next) ->
       if @config.hasOwnProperty('secured') and @config.secured and !req.accessToken
