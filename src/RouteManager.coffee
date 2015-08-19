@@ -63,7 +63,7 @@ class RouteManager extends EventEmitter
           continue unless (name.match /^[^_]+[a-zA-Z0-9_\.]+\.jade+$/)?
           p = new RegExp @_viewsDir.replace( /\//,'\/')
           routeItem =
-            name: itemName
+            name: _.camelCase itemName
             file_type: 'jade'
             query_method: if (itemName is 'index') then 'find' else 'findOne'
             route_file: "#{_path.join @_routesDir, _path.basename(dir).replace(/views+/,''), itemName}"
