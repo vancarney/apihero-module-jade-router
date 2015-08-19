@@ -79,10 +79,10 @@ class RouteHandler
     # tests if configured Query element is an `Array`
     if _.isArray @config.query
       # defines completion method
-      done = _.after(@config.query.length, (e, resultset) ->
+      done = _.after(@config.query.length, (e, resultset) =>
         if e != null
           console.log e
-          return res.sendStatus(500)
+          return res.sendStatus 500
         # invokes render with result set
         @render res, resultset
       )
