@@ -57,8 +57,7 @@ class RouteHandler
         for arg of c_query.query.arguments
           `arg = arg`
           # skips unprocessable arguments
-          if !c_query.query.arguments[arg]
-            continue
+          continue unless c_query.query.arguments[arg] and typeof c_query.query["arguments"][arg] is 'string'
           # tests for argument values that match `:` or `?`
           if (param = c_query.query.arguments[arg].match /^(\:|\?)+([a-zA-Z0-9-_]{1,})+$/)?
             # if value matched `:`, that is a ROUTE PARAMETER such as /:id and is applied against request.params
