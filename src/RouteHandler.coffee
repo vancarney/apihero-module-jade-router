@@ -15,7 +15,7 @@ class RouteHandler
     # attempts to determine name for `Query Method` defaults to 'find'
     funcName = @config.queryMethod or 'find'
     # attempts to determine `Collection Name` defaults to config name for route
-    collectionName = unless (name = @config.collectionName).length then null else name
+    collectionName = unless (name = @config.collectionName || "").length then null else name
     # placeholds the result object
     model = 
       meta: []
@@ -23,9 +23,9 @@ class RouteHandler
     # tests for Collection Name
     unless collectionName? and @_app_ref.models.hasOwnProperty collectionName
       # renders page and returns if no Collection Name was defined
-      return render res, model
+      return @render res, model
     # performs Query Execution
-    execQuery = (colName, funName, q, cB) ->
+    execQuery = (colName, funName, q, cB) =>
       # tests for existance of query arguments defintion
       if q.hasOwnProperty 'arguments'
         # captures values of argument properties
@@ -37,7 +37,7 @@ class RouteHandler
       # invokes Collection Operation with Query and Callback only
       @_app_ref.models[colName][funName] q, cB
     # processes query from Configuration and Request Query and Params Object
-    processQuery: (c_query, callback) ->
+    processQuery = (c_query, callback) =>
       # holds `name` of Response Object Element
       elName = if c_query.hasOwnProperty('name') then c_query.name else 'results'
       # holds `name` of Collection to perform Operations against
@@ -89,12 +89,12 @@ class RouteHandler
       # loops on each configured query passed
       _.each @config.query, (q) ->
         # inokes Query Processing method
-        @processQuery _.cloneDeep(q), (e, res) ->
+        processQuery _.cloneDeep(q), (e, res) ->
           # invokes done each iteration
           done e, _.extend(model, res)
     else
       # is a single query configuration -- process directly
-      @processQuery _.cloneDeep(@config.query), (e, resultset) ->
+      processQuery _.cloneDeep(@config.query), (e, resultset) ->
         if e != null
           console.log e
           return res.sendStatus 500
