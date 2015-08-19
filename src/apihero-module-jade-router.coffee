@@ -69,7 +69,7 @@ module.exports.init = (app, options, callback)->
         _routeManager.createRoute route, (e)=>
           return console.log e if e? and e.code != 'EEXIST'
           setTimeout (=>
-            (require "#{route.route_file}").init app
+            require( "#{route.route_file}" ) new RouteHandler route.route_file, app
             done()
           ), 1300
       _.each routes, (route)=>
@@ -86,3 +86,4 @@ module.exports.init = (app, options, callback)->
 
 RouteManager  = require './RouteManager'
 RoutesMonitor = require './RoutesMonitor'
+RouteHandler  = require './RouteHandler'

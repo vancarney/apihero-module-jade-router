@@ -11,7 +11,6 @@ class RouteItem
         callback.apply @, arguments if e?
         fs.writeFile "#{p}.json", JSON.stringify(@route_item, null, 2), {flag:'wx+'}, (e)=>
           callback.apply @, arguments
-
 RouteItem::template = _.template """
 /**
  * <%= name %>.js
@@ -37,7 +36,8 @@ var <%= name %>Handler = function(req, res, next) {
 
   // placeholds the result object
   var model = {
-    meta : []
+    meta : [],
+    session : req.session
   };
 
   // tests for Collection Name
@@ -169,7 +169,17 @@ module.exports.init = function(app) {
   // tests for RegExp based route as denoted by a `rx:` prefix
   var route = (s = config.route.split('rx:')).length > 1 ? new RegExp(s.pop()) : config.route;
   // applies the Route and Handler Method to a GET Request 
-  app.get(route, <%= name %>Handler);
+  app.get(route, function(req, res, next) {
+  if (config.hasOwnProperty('secured') && config.secured && !req.accessToken) {
+    res.render( 'forbidden.jade', {meta:[]}, function(e,html) {
+      if (e !== null) console.log(e);
+      res.send(html);
+    }); 
+  } else {
+    req.session.userId = req.accessToken.userId;
+    <%= name %>Handler(req, res, next);
+  }
+  });
 };
 """
 module.exports = RouteItem
