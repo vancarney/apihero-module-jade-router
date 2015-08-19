@@ -121,3 +121,4 @@ class RouteHandler
       else
         req.session.userId = req.accessToken.userId
         requestHandler req, res, next
+module.exports = RouteHandler
