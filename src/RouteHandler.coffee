@@ -19,6 +19,7 @@ class RouteHandler
     # placeholds the result object
     model = 
       meta: []
+      user: req.user
       session: req.session
     # tests for Collection Name
     unless collectionName? and @_app_ref.models.hasOwnProperty collectionName
