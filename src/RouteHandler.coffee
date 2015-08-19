@@ -98,6 +98,7 @@ class RouteHandler
         if e != null
           console.log e
           return res.sendStatus 500
+        return res.status(404).send("document not found") unless resultset?
         # invokes render with result set
         @render res, _.extend(model, resultset)
   # Routeing Module Entry Point
@@ -116,6 +117,5 @@ class RouteHandler
           console.log e if e?
           res.send html
       else
-        req.session.userId = req.accessToken.userId
         @requestHandler req, res, next
 module.exports = RouteHandler
