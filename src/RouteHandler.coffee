@@ -84,23 +84,22 @@ class RouteHandler
           console.log e
           return res.sendStatus(500)
         # invokes render with result set
-        render res, resultset
-        return
+        @render res, resultset
       )
       # loops on each configured query passed
       _.each @config.query, (q) ->
         # inokes Query Processing method
-        processQuery _.cloneDeep(q), (e, res) ->
+        @processQuery _.cloneDeep(q), (e, res) ->
           # invokes done each iteration
           done e, _.extend(model, res)
     else
       # is a single query configuration -- process directly
-      processQuery _.cloneDeep(@config.query), (e, resultset) ->
+      @processQuery _.cloneDeep(@config.query), (e, resultset) ->
         if e != null
           console.log e
           return res.sendStatus 500
         # invokes render with result set
-        render res, _.extend(model, resultset)
+        @render res, _.extend(model, resultset)
   # Routeing Module Entry Point
   constructor: (@filePath, @_app_ref)->
     try 
@@ -114,11 +113,9 @@ class RouteHandler
     @_app_ref.get route, (req, res, next) ->
       if @config.hasOwnProperty('secured') and @config.secured and !req.accessToken
         res.render 'forbidden.jade', { meta: [] }, (e, html) ->
-          if e != null
-            console.log e
+          console.log e if e?
           res.send html
-          return
       else
         req.session.userId = req.accessToken.userId
-        requestHandler req, res, next
+        @requestHandler req, res, next
 module.exports = RouteHandler
