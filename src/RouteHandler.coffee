@@ -94,7 +94,7 @@ class RouteHandler
           done e, _.extend(model, res)
     else
       # is a single query configuration -- process directly
-      processQuery _.cloneDeep(@config.query), (e, resultset) ->
+      processQuery _.cloneDeep(@config.query), (e, resultset) =>
         if e != null
           console.log e
           return res.sendStatus 500
