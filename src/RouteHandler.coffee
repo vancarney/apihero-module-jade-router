@@ -60,10 +60,17 @@ class RouteHandler
           # skips unprocessable arguments
           continue unless c_query.query.arguments[arg] and typeof c_query.query["arguments"][arg] is 'string'
           # tests for argument values that match `:` or `?`
-          if (param = c_query.query.arguments[arg].match /^(\:|\?)+([a-zA-Z0-9-_]{1,})+$/)?
+          if (param = c_query.query.arguments[arg].match /^(\:|\?|\$)+([a-zA-Z0-9-_]{1,})+$/)?
             # if value matched `:`, that is a ROUTE PARAMETER such as /:id and is applied against request.params
             # if value matched `?`, that is a REQUEST QUERY PARAMETER such as ?param=value and is applied against request.query
-            c_query.query.arguments[arg] = req[if param[1] == ':' then 'params' else 'query']["#{param[2]}"]
+            # if value matched `$`, that is a REQUEST PARAMETER such as request.PARAM and is applied against request
+            switch param[1]
+              when ':'
+                c_query.query["arguments"][arg] = req.params[ param[2] ]
+              when '?'
+                c_query.query["arguments"][arg] = req.query[ param[2] ]
+              when '$'
+                c_query.query["arguments"][arg] = req[ param[2] ]
       # wraps passed calllback for negotiation
       cB = (e, res) ->
         # invokes callback and returns in case of error
