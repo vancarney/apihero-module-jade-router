@@ -1,12 +1,12 @@
 fs      = require 'fs'
 path    = require 'path'
 _       = require 'lodash'
-jade    = require 'apihero-module-jade'
+pug    = require 'apihero-module-pug'
 modRewrite = require 'connect-modrewrite'
 
-module.exports.jade = {}
-_.each jade, (fun,param)=>
-  module.exports.jade[param] = fun
+module.exports.pug = {}
+_.each pug, (fun,param)=>
+  module.exports.pug[param] = fun
 
 _defaults = {
   viewsPath:  path.join "#{app_root || process.cwd()}", 'views'
@@ -46,8 +46,8 @@ module.exports.init = (app, options, callback)->
     loadedModules = app.ApiHero.listModules()
     loadedModules.splice idx, 1 if 0 <= (idx = loadedModules.indexOf path.basename module.id, '.js')
     done = _.after loadedModules.length, =>
-      app.engine 'jade', jade.jade.renderFile
-      app.set 'view engine', 'jade'
+      app.engine 'pug', pug.pug.renderFile
+      app.set 'view engine', 'pug'
       app.set 'views', views
       app.use (req, res, next)->
         res.locals ?= {}

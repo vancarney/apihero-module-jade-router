@@ -60,11 +60,11 @@ class RouteManager extends EventEmitter
         else
           itemName = name.split('.')[0]
           # we only handle Jade files
-          continue unless (name.match /^[^_]+[a-zA-Z0-9_\.]+\.jade+$/)?
+          continue unless (name.match /^[^_]+[a-zA-Z0-9_\.]+\.(pug|jade)+$/)?
           p = new RegExp @_viewsDir.replace( /\//,'\/')
           routeItem =
             name: _.camelCase itemName
-            file_type: 'jade'
+            file_type: 'pug'
             query_method: if (itemName is 'index') then 'find' else 'findOne'
             route_file: "#{_path.join @_routesDir, _path.basename(dir).replace(/views+/,''), itemName}"
             template_file: _path.join dir.split(/views+/).pop(), itemName
