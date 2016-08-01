@@ -1,7 +1,7 @@
 fs      = require 'fs'
 path    = require 'path'
 _       = require 'lodash'
-pug    = require 'apihero-module-pug'
+pug     = require 'apihero-module-pug'
 modRewrite = require 'connect-modrewrite'
 
 module.exports.pug = {}
@@ -36,9 +36,10 @@ loadHelpers = (callback)->
   fs.readdir @options.helpersPath, (e,files)=>
     done = _.after files.length, => callback null
     _.each files, (file)=> handleFile path.join( app_root, 'helpers', file ), done
-    
+module.exports.getOptions = ->
+  @options || _.clone _defaults
 module.exports.init = (app, options, callback)->
-  @options = _.extend _defaults, options
+  @options = _.extend _.clone( _defaults ), options
   views = [@options.viewsPath]
   rules_path = path.join @options.routesPath, 'rewrite-rules.json'
   _routes = []

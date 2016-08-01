@@ -1,6 +1,8 @@
 fs = require 'fs-extra'
 path = require 'path'
 {_} = require 'lodash'
+pug_router = require './apihero-module-pug-router'
+console.log pug_router
 class RouteItem
   _route_item:
     name: ''
@@ -38,8 +40,9 @@ module.exports = function(<%= name%>Hander) {
    */
 };
 """
-RouteItem.ROUTES_PATH = path.join __dirname, 'routes'
-RouteItem.VIEWS_PATH  = path.join __dirname, 'views'
+options = pug_router.getOptions()
+RouteItem.ROUTES_PATH = options['routesPath']
+RouteItem.VIEWS_PATH  = options['viewsPath']
 RouteItem.formatRoute = (fname)->
   fname
   # handles index as base path
