@@ -1,0 +1,8 @@
+{
+  "name": "testing",
+  "file_type": "pug",
+  "query_method": "findOne",
+  "route_file": "/Users/van/Documents/workspace-new/apihero-module-pug-router/src/routes/testing",
+  "template_file": "/Users/van/Documents/workspace-new/apihero-module-pug-router/src/views/testing",
+  "route": "/Users/van/Documents/workspace-new/apihero-module-pug-router/src/testing"
+}

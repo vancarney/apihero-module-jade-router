@@ -21,6 +21,7 @@ class RouteManager extends EventEmitter
     (new RouteItem routing).save => 
       callback?.apply @, arguments
   destroyRoute:(route, callback)->
+    # todo: implement this
   listRoutes:->
     @routes
   load:(callback)->
@@ -30,21 +31,12 @@ class RouteManager extends EventEmitter
       return callback? e
     # console.log _routes
     callback? null, _routes
-  formatRoute:(fname)->
-    fname
-    # handles index as base path
-    .replace /index/, '/'
-    # handles all sub-docs as being views on an item
-    .replace /^(\/?[a-zA-Z0-9_]{1,}\/+)+(edit|index|show)$/, "$1:id/$2"
-    # tidies up any doubled slashes
-    .replace /\/\//,'/'
-    # removes trailing slash
-    .replace /^([a-zA-Z0-9_])+\/+$/, '$1'
   getpaths:(dir)->
     paths = []
     if (list = fs.readdirSync dir).length
       for name in list
         continue if (name.match /^\./)?
+        console.log "dir: #{dir}"
         file = _path.join dir, name
         try
           # attempt to get stats on the file
@@ -62,13 +54,8 @@ class RouteManager extends EventEmitter
           # we only handle Jade files
           continue unless (name.match /^[^_]+[a-zA-Z0-9_\.]+\.(pug|jade)+$/)?
           p = new RegExp @_viewsDir.replace( /\//,'\/')
-          routeItem =
-            name: _.camelCase itemName
-            file_type: 'pug'
-            query_method: if (itemName is 'index') then 'find' else 'findOne'
-            route_file: "#{_path.join @_routesDir, _path.basename(dir).replace(/views+/,''), itemName}"
-            template_file: _path.join dir.split(/views+/).pop(), itemName
-            route: @formatRoute _path.join _path.basename(dir).replace(/views+/,''), itemName
+          routeItem = new RouteItem
+
           routeItem.route_file = "./#{routeItem.route_file}" unless routeItem.route_file.match /^\.?\/+/
           paths.push routeItem
     _.flatten paths

@@ -25,17 +25,14 @@
     "connect-modrewrite": "^0.9.0",
     "fs-extra": "^0.30.0",
     "lodash": "^4.14.0",
-    "loopback-datasource-juggler": "^2.47.0",
     "pug-runtime": "^2.0.2"
   },
   "devDependencies": {
-    "api-hero": "git+https://github.com/vancarney/rikki-tikki#api-hero",
+  	"api-hero": "git+https://github.com/vancarney/rikki-tikki#api-hero",
     "chai": "^3.5.0",
     "coffee-script": "^1.10.0",
     "docco": "^0.7.0",
     "express": "^4.14.0",
-    "loopback-connector": "^2.4.0",
-    "loopback-testing": "^1.2.0",
     "mocha": "^2.5.3",
     "supertest": "^1.2.0"
   },
